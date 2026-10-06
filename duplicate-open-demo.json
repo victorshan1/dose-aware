@@ -1,0 +1,92 @@
+[
+  {
+    "event": "reminder_started",
+    "result": {
+      "accepted": true,
+      "duplicate": false,
+      "state": "reminding",
+      "reason": "reminder_started",
+      "generated_events": [],
+      "commands": []
+    }
+  },
+  {
+    "event": "compartment_opened",
+    "result": {
+      "accepted": true,
+      "duplicate": false,
+      "state": "protected",
+      "reason": "compartment_opened_and_protected",
+      "generated_events": [],
+      "commands": [
+        {
+          "command_id": "a446d57a-13d3-460b-b4d9-19c285189d00",
+          "device_id": "wakedose-demo-001",
+          "command": "stop_reminder",
+          "compartment_id": "night-dose",
+          "reason": "valid_compartment_open",
+          "until": null
+        },
+        {
+          "command_id": "d25e93ae-5c44-4230-a27a-e6416f50bd68",
+          "device_id": "wakedose-demo-001",
+          "command": "lock_compartment",
+          "compartment_id": "night-dose",
+          "reason": "safety_interval_active",
+          "until": "2026-10-02T09:22:57.662406Z"
+        }
+      ]
+    }
+  },
+  {
+    "event": "compartment_opened",
+    "result": {
+      "accepted": true,
+      "duplicate": false,
+      "state": "duplicate_risk",
+      "reason": "duplicate_open_during_safety_interval",
+      "generated_events": [
+        {
+          "event_id": "abad4423-ea6a-4611-9486-ae7bfa580528",
+          "device_id": "wakedose-demo-001",
+          "event_type": "duplicate_open_attempted",
+          "occurred_at": "2026-10-02T06:22:57.662406Z",
+          "compartment_id": "night-dose",
+          "battery_percent": null,
+          "source": "simulator",
+          "metadata": {}
+        }
+      ],
+      "commands": [
+        {
+          "command_id": "fc60300a-9e1f-4ee2-94bc-90a107c9438f",
+          "device_id": "wakedose-demo-001",
+          "command": "keep_locked",
+          "compartment_id": "night-dose",
+          "reason": "duplicate_open_risk",
+          "until": "2026-10-02T09:22:57.662406Z"
+        },
+        {
+          "command_id": "800614bd-355a-473a-877f-bd69116314f7",
+          "device_id": "wakedose-demo-001",
+          "command": "notify_caregiver",
+          "compartment_id": "night-dose",
+          "reason": "duplicate_open_risk",
+          "until": null
+        }
+      ]
+    }
+  },
+  {
+    "snapshot": {
+      "session_id": "204cee08-ffaa-4bbc-b935-943a397aeeab",
+      "state": "duplicate_risk",
+      "device_id": "wakedose-demo-001",
+      "compartment_id": "night-dose",
+      "scheduled_at": "2026-10-02T06:22:57.662406+00:00",
+      "last_opened_at": "2026-10-02T06:22:57.662406+00:00",
+      "protected_until": "2026-10-02T09:22:57.662406+00:00",
+      "audit_count": 3
+    }
+  }
+]

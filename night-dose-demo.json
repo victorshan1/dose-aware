@@ -1,0 +1,53 @@
+[
+  {
+    "event": "reminder_started",
+    "result": {
+      "accepted": true,
+      "duplicate": false,
+      "state": "reminding",
+      "reason": "reminder_started",
+      "generated_events": [],
+      "commands": []
+    }
+  },
+  {
+    "event": "compartment_opened",
+    "result": {
+      "accepted": true,
+      "duplicate": false,
+      "state": "protected",
+      "reason": "compartment_opened_and_protected",
+      "generated_events": [],
+      "commands": [
+        {
+          "command_id": "a3964b13-8dd7-4b17-8922-ff67b8642920",
+          "device_id": "wakedose-demo-001",
+          "command": "stop_reminder",
+          "compartment_id": "night-dose",
+          "reason": "valid_compartment_open",
+          "until": null
+        },
+        {
+          "command_id": "2305393b-e6fd-43ea-8fa1-3eb18fd9775e",
+          "device_id": "wakedose-demo-001",
+          "command": "lock_compartment",
+          "compartment_id": "night-dose",
+          "reason": "safety_interval_active",
+          "until": "2026-10-02T09:21:38.168950Z"
+        }
+      ]
+    }
+  },
+  {
+    "snapshot": {
+      "session_id": "f19b357d-2816-46ed-a4a9-ea9c211558e0",
+      "state": "protected",
+      "device_id": "wakedose-demo-001",
+      "compartment_id": "night-dose",
+      "scheduled_at": "2026-10-02T06:21:38.168950+00:00",
+      "last_opened_at": "2026-10-02T06:21:38.168950+00:00",
+      "protected_until": "2026-10-02T09:21:38.168950+00:00",
+      "audit_count": 2
+    }
+  }
+]

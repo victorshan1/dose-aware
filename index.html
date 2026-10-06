@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f9">
+  <title>知醒 DoseAware</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">知</span>
+      <div>
+        <strong>知醒 DoseAware</strong>
+        <span>醒来即知，服药更安心</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="connection" id="connection"><i></i>系统检测中</span>
+      <button class="icon-button" id="refresh-button" title="刷新数据" aria-label="刷新数据">
+        <span aria-hidden="true">↻</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="view-tabs" aria-label="视图切换">
+    <button class="tab active" data-view="patient">患者视图</button>
+    <button class="tab" data-view="caregiver">照护者视图</button>
+  </nav>
+
+  <main>
+    <section id="patient-view" class="view active" aria-labelledby="patient-title">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">今晚的服药安全状态</p>
+          <h1 id="patient-title">夜间药物 A</h1>
+        </div>
+        <button class="privacy-badge privacy-toggle" id="privacy-toggle" type="button" title="切换隐私模式">隐私模式</button>
+      </div>
+
+      <section class="status-panel" id="status-panel">
+        <div class="status-icon" id="status-icon" aria-hidden="true">○</div>
+        <div class="status-copy">
+          <span class="status-label">当前状态</span>
+          <strong id="state-title">尚未开始</strong>
+          <p id="state-description">选择一个演示场景，查看服药安全闭环。</p>
+        </div>
+        <div class="countdown" id="countdown-wrap" hidden>
+          <span>保护剩余</span>
+          <strong id="countdown">--:--</strong>
+        </div>
+      </section>
+
+      <div class="metric-grid">
+        <section class="metric">
+          <span>最近开盒</span>
+          <strong id="last-opened">暂无记录</strong>
+          <small>仅代表药格打开，不代表已经服药</small>
+        </section>
+        <section class="metric">
+          <span>下次计划</span>
+          <strong id="scheduled-at">尚未创建</strong>
+          <small id="device-id">设备等待连接</small>
+        </section>
+        <section class="metric">
+          <span>照护状态</span>
+          <strong id="care-state">无需介入</strong>
+          <small id="care-detail">异常时才通知照护者</small>
+        </section>
+      </div>
+
+      <section class="action-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">设备数字孪生</p>
+            <h2>运行演示场景</h2>
+          </div>
+          <span id="scenario-status">尚未运行</span>
+        </div>
+        <div class="scenario-grid">
+          <button class="scenario primary" data-scenario="night-dose">
+            <span class="scenario-icon">◐</span>
+            <strong>正常夜间取药</strong>
+            <small>提醒、开盒、进入保护期</small>
+          </button>
+          <button class="scenario danger" data-scenario="duplicate-open">
+            <span class="scenario-icon">!</span>
+            <strong>重复开盒风险</strong>
+            <small>保持锁定并通知照护者</small>
+          </button>
+          <button class="scenario warning" data-scenario="no-response">
+            <span class="scenario-icon">⌁</span>
+            <strong>长时间无响应</strong>
+            <small>升级提醒并联系照护者</small>
+          </button>
+          <button class="scenario" data-scenario="post-nap">
+            <span class="scenario-icon">↟</span>
+            <strong>小睡后补提醒</strong>
+            <small>恢复活动后重新提醒</small>
+          </button>
+        </div>
+      </section>
+
+      <section class="timeline-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">可解释的状态变化</p>
+            <h2>事件时间线</h2>
+          </div>
+          <span id="audit-count">0 条记录</span>
+        </div>
+        <ol class="timeline" id="timeline">
+          <li class="empty">运行演示后，这里会显示每次状态变化和原因。</li>
+        </ol>
+      </section>
+    </section>
+
+    <section id="caregiver-view" class="view" aria-labelledby="caregiver-title">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">只在异常时介入</p>
+          <h1 id="caregiver-title">照护者安全看板</h1>
+        </div>
+        <button class="text-button" id="contact-button">联系患者</button>
+      </div>
+
+      <section class="care-summary">
+        <div>
+          <span>当前安全状态</span>
+          <strong id="caregiver-state">暂无活动会话</strong>
+        </div>
+        <p id="caregiver-summary">系统不会持续监控患者，只同步与服药安全相关的必要事件。</p>
+      </section>
+
+      <div class="care-grid">
+        <section class="list-panel">
+          <div class="section-heading compact">
+            <h2>异常通知</h2>
+            <span id="notification-count">0 条</span>
+          </div>
+          <ul id="notifications" class="notification-list">
+            <li class="empty">当前没有需要处理的异常。</li>
+          </ul>
+          <button class="text-button" id="ack-all-button" type="button">确认全部通知</button>
+        </section>
+        <section class="list-panel">
+          <div class="section-heading compact">
+            <h2>最近会话</h2>
+            <span id="session-count">0 个</span>
+          </div>
+          <ul id="session-list" class="session-list">
+            <li class="empty">尚未创建服药会话。</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>重要边界：</strong>开盒不等于已服药。本系统不提供剂量、补服或诊断建议。
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
